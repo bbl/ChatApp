@@ -1,6 +1,6 @@
-/**
- * Создание экземпляра - Connection.getInstance(socket)
- * Использование методов - getConnection().method()
+п»ї/**
+ * РЎРѕР·РґР°РЅРёРµ СЌРєР·РµРјРїР»СЏСЂР° - Connection.getInstance(socket)
+ * РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РјРµС‚РѕРґРѕРІ - getConnection().method()
  */
 
 
