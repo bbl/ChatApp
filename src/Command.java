@@ -10,9 +10,17 @@ public class Command {
     }
 
 
-    public String intoString(){
-        String s=type+'\n';
+    public String intoString(String stringEnd){
+        String s=type+stringEnd;
         return s;
+    }
+
+
+    private boolean isUnableToRecognize;          //если CommandListener вытащил коммаду, она ушла в интерпретатор, но там не нашлось
+    public boolean isUnableToRecognize() {
+        return isUnableToRecognize;}  //метода для обработки такой команды, то выставляется true и комманда отправляется обратно в очередь
+    public void setIsUnableToRecognize(boolean isUnableToRecognize) {
+        this.isUnableToRecognize = isUnableToRecognize;
     }
 
     private String type;

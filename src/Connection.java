@@ -1,25 +1,21 @@
-﻿/**
- * Создание экземпляра - Connection.getInstance(socket)
- * Использование методов - getConnection().method()
- */
+﻿
 
-
-import javax.xml.soap.SAAJResult;
 import java.io.*;
 import java.net.Socket;
 
 
-public class Connection {          //в этом классе будет только 2 метода - принять строку (и преобр в команду) и отправить строку
+public class Connection {   //в этом классе будет только 2 метода - принять строку (и преобр в команду) и отправить строку
 
 	private Socket socket;
+
 	
 	private Connection(Socket socket){
 		this.socket = socket;
 	}
 
-	public void send(Command c)throws IOException{
+	public void send(Command c,String stringEnd)throws IOException{
 		String s;
-		s=c.intoString();
+		s=c.intoString(stringEnd);
 		OutputStream sout = socket.getOutputStream();
 		PrintWriter pount = new PrintWriter(sout,true);
 		pount.print(s);

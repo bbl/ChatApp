@@ -8,8 +8,8 @@ public class NickCommand extends Command{
         this.type=type;
     }
 
-    public String intoString(String nick){
-        String s=type+' '+nick+'\n';
+    public String intoString(String nick, String stringEnd){
+        String s=type+' '+nick+stringEnd;
         return s;
     }
 
