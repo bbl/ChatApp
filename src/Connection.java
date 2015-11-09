@@ -1,32 +1,59 @@
-﻿
-
-import java.io.*;
+﻿import java.io.*;
 import java.net.Socket;
 
-
-public class Connection {   //в этом классе будет только 2 метода - принять строку (и преобр в команду) и отправить строку
+public class Connection {
 
 	private Socket socket;
 
-	
-	private Connection(Socket socket){
+	private boolean open;
+
+	private Connection(Socket socket) {
 		this.socket = socket;
 	}
 
-	public void send(Command c,String stringEnd)throws IOException{
-		String s;
-		s=c.intoString(stringEnd);
+	public void accept() throws IOException {
 		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout,true);
-		pount.print(s);
+		PrintWriter pount = new PrintWriter(sout, true);
+		pount.print("Accepted");
+	}
+
+	public void reject() throws IOException {
+		OutputStream sout = socket.getOutputStream();
+		PrintWriter pount = new PrintWriter(sout, true);
+		pount.print("Rejected");
+	}
+
+	public void sendNickHello(String nick) throws IOException{
+		OutputStream sout = socket.getOutputStream();
+		PrintWriter pount = new PrintWriter(sout, true);
+		pount.print("ChatApp 2015 user %username%");  //вместо %username% будет использоваться соответствующий геттер 
+	}
+	public void sendNickBusy(String nick) throws IOException{
+		OutputStream sout = socket.getOutputStream();
+		PrintWriter pount = new PrintWriter(sout, true);
+		pount.print("ChatApp 2015 user %username% busy"); 
+	}
+	public void sendMessage(String msg) throws IOException {
+		OutputStream sout = socket.getOutputStream();
+		PrintWriter pount = new PrintWriter(sout, true);
+		pount.print("Message: " + msg);
+	}
+
+	public void disconnect() throws IOException {
+		OutputStream sout = socket.getOutputStream();
+		PrintWriter pount = new PrintWriter(sout, true);
+		pount.print("Disconnect");
+	}
+
+	public boolean isOpen() {
+		return open;
 	}
 
 	public Command receive() throws IOException {
-		String type;
-		InputStream sin = socket.getInputStream();
-		//тут добавить Reader, записать в строку
-        //определиться с видом команды (mesCommand,nickCommand или просто Command)
-		//Command c = new Command(type);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				socket.getInputStream(), "UTF-8"));
+		String type = reader.toString();
+		Command c = Command.createCommand(type);
 		return c;
 	}
 }
