@@ -4,4 +4,5 @@
 public class Protocol {
 	public static final String STRING_END = "\n";
 	public static final int PORT = 28411;
+	public static boolean isBusy;
 }
