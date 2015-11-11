@@ -7,7 +7,7 @@ public class Connection {
 
 	private boolean open;
 
-	private Connection(Socket socket) {
+	public Connection(Socket socket) {
 		this.socket = socket;
 	}
 
