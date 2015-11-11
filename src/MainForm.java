@@ -19,6 +19,7 @@ public class MainForm {
     final TextField textField3 = new TextField(" ");
     final JButton button1 = new JButton("Apply");
     final JButton button2 = new JButton("Connect");
+    final JButton button3 = new JButton("Send");
 
 
     public static void main(String args[]){
@@ -96,24 +97,26 @@ public class MainForm {
 
 
         //панель ввода текста
-        Color color2 = new Color(0, 255, 118);
+        Color color2 = new Color(255, 255, 255);
         panel5.setBackground(color2);
-        panel5.setMaximumSize(new Dimension(screenWidth, screenHeight));
-        panel5.setPreferredSize(new Dimension(screenWidth /2 ,screenHeight / 7));
-        panel5.setLayout(new BoxLayout(panel5, BoxLayout.Y_AXIS));
+        panel5.setMaximumSize(new Dimension(screenWidth /4, screenHeight / 25));
+        panel5.setPreferredSize(new Dimension(screenWidth /4 ,screenHeight / 25));
+        panel5.setMinimumSize(new Dimension(screenWidth/4,screenHeight / 25));
+        panel5.setLayout(new BoxLayout(panel5, BoxLayout.X_AXIS));
         textField3.setCaretPosition(25);
         panel5.add(textField3);
+        panel5.add(button3);
 
 
 
 
-
+        // добавляем на frame
+        frame.add(panel1);
+        panel1.add(panel2, BorderLayout.NORTH);
+        panel1.add(panel5, BorderLayout.SOUTH);
         panel2.add(panel3);
         panel2.add(panel4);
-        panel1.add(panel5, BorderLayout.CENTER);
-        panel1.add(panel2, BorderLayout.NORTH);
-        frame.add(panel1);
-        frame.pack();
+       // frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
