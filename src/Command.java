@@ -3,7 +3,7 @@
  */
 public class Command {
 
-	private CommandType type;
+	protected CommandType type;
 
 	Command(CommandType type) {
 		this.type = type;
