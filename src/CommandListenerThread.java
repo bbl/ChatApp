@@ -5,7 +5,7 @@ public class CommandListenerThread extends Observable implements Runnable {
 	private Connection con;
 	private volatile Command lastCommand;
 	private volatile boolean disconnected;
-	
+
 	public CommandListenerThread(Connection con) {
 		this.con = con;
 	}
@@ -16,25 +16,27 @@ public class CommandListenerThread extends Observable implements Runnable {
 
 	@Override
 	public void run() {
-		while (isDisconnected()!=false) {
-				synchronized (this) {
-					try {
-						this.lastCommand = con.receive();
-						notifyObservers(con.receive());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		while (isDisconnected() != true) {
+			synchronized (this) {
+				try {
+					this.lastCommand = con.receive();
+					notifyObservers(con.receive());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			 
+			}
+
 		}
 
 	}
-	void start(){
-		this.disconnected=true;
-		Thread t = new Thread(this);		
+
+	void start() {
+		this.disconnected = false;
+		Thread t = new Thread(this);
 		t.start();
 	}
+
 	boolean isDisconnected() {
 		return disconnected;
 	}
