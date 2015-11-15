@@ -24,10 +24,13 @@ public class Command {
 			return new Command(CommandType.REJECT);
 		else if (s.contains("Disconnect"))
 			return new Command(CommandType.DISCONNECT);
-		else if (s.contains("Nick"))
-			return new Command(CommandType.NICK);
-		else if (s.contains("Message"))
+		else if (s.contains("ChatApp 2015"))
+			return new NickCommand(CommandType.NICK,"передать в конструкор ник"); //доделать (убрать из сообщения все, кроме самого ника)
+		else if (s.contains("Message"))                                          //аналогично
 			return new Command(CommandType.MESSAGE);
 		return null;
 	}
 }
+
+// если клиент отправлял нам NickBusy (сообщение вида ChapApp 2015 user %username% busy), то она распознается тут как обычная nickCommand, a
+// busy запишется в поле для ника (возможно придется переделывать )
