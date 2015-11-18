@@ -52,7 +52,7 @@ public class Connection {
 	public Command receive() throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				socket.getInputStream(), "UTF-8"));
-		String type = reader.toString();
+		String type = reader.readLine();
 		Command c = Command.createCommand(type);
 		return c;
 	}
