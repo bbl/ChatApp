@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import static Command.CommandType.NICK;
+
 
 /**
  * Created by user on 10.11.2015.

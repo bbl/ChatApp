@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
 
 import java.io.IOException;
-
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -21,13 +18,12 @@ public class Test2 {
 		System.out.println("Ждем клиента...");
 
 		Socket socket = ss.accept();
+		ss.close();
 		Connection con = new Connection(socket);
 		System.out.println("Клиент подключен");
 		System.out.println();
 		while (true) {
-			// con.receive().toString();
-			System.out.println(con.isOpen());
-			System.out.println(con.receive().toString());
+			System.out.println(con.receive().getType());
 		}
 
 	}

@@ -15,6 +15,9 @@ public class Connection {
 		OutputStream sout = socket.getOutputStream();
 		PrintWriter pount = new PrintWriter(sout, true);
 		pount.print("Accepted");
+		pount.close();
+		sout.close();
+		
 	}
 
 	public void reject() throws IOException {
