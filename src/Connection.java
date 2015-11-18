@@ -45,15 +45,13 @@ public class Connection {
 	}
 
 	public void sendMessage(String msg) throws IOException {
-		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout, true);
 		pount.print("Message: " + msg);
+		pount.flush();
 	}
 
 	public void disconnect() throws IOException {
-		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout, true);
 		pount.print("Disconnect");
+		pount.flush();
 	}
 
 	public boolean isOpen() {

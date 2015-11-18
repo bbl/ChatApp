@@ -21,6 +21,7 @@ public class testConnection {
 		con.accept();
 		con.reject();
 		con.disconnect();
+		con.accept();
 	//	}
 	}
 
