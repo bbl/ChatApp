@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Julia on 10.11.2015.
@@ -14,21 +15,25 @@ public class MainForm {
     final JPanel panel3 = new JPanel(); //панель для ввода своего ника
     final JPanel panel4 = new JPanel(); //панель для ввода ip друга
     final JPanel panel5 = new JPanel(); //панель для ввода текста
-   // final JPanel panel6 = new JPanel(); // панель для вывода сообщений на экран
-    final JPanel panel7= new JPanel(); //панель для кнопочек "Connect" и "Disconnect"
+    final JPanel panel6 = new JPanel(); //панель для кнопочек "Connect" и "Disconnect"
+    final JPanel panel7 = new JPanel();
     final JLabel forText1 = new JLabel();
     final JLabel forText2 = new JLabel();
     final TextField textField1 = new TextField(35);//для ввода своего ника
     final TextField textField2 = new TextField(35); //для ввода ip друга
-    final JTextArea textArea = new JTextArea(); //для ввода сообщения
-    final JButton button1 = new JButton("Apply");
-    final JButton button2 = new JButton("Connect");
-    final JButton button3 = new JButton("Send");
-    final JButton button4 = new JButton("Disconnect");
-    final JLabel label = new JLabel(); //для вывода сообщений на экран
+    final JTextArea textArea = new JTextArea(); //для вывода сообщения
+    final JTextArea textAreaForMessenger = new JTextArea();//для ввода сообщения
+    final JButton apply = new JButton("Apply");
+    final JButton connect = new JButton("Connect");
+    final JButton send = new JButton("Send");
+    final JButton disconnect = new JButton("Disconnect");
+    final JScrollPane areaScrollPane = new JScrollPane(textArea);
+    public String nickname;
+    public String ip;
+    public boolean check; //проверка для блокировки кнопок "Connect" и "Disconnect"
 
 
- 
+
     public static void main(String args[]){
         SwingUtilities.invokeLater(new Runnable(){
             public void run(){
@@ -57,7 +62,7 @@ public class MainForm {
 
         //главная палень на которой будут лежать остальные
       //  Color color = new Color(48, 40, 255);
-       // panel1.setBackground(color);
+     //   panel1.setBackground(color);
         panel1.setLayout(new BorderLayout());
 
 
@@ -76,17 +81,17 @@ public class MainForm {
         panel3.add(Box.createVerticalStrut(15));
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
  
-        panel3.setPreferredSize(new Dimension(screenWidth/4,screenHeight / 4));
-        panel3.setMaximumSize(new Dimension(screenWidth/2,screenHeight / 2));
-        panel3.setMinimumSize(new Dimension(screenWidth/4,screenHeight / 4));
+        panel3.setPreferredSize(new Dimension(screenWidth/8,screenHeight / 8));
+        panel3.setMaximumSize(new Dimension(screenWidth/4,screenHeight / 4));
+        panel3.setMinimumSize(new Dimension(screenWidth/8,screenHeight / 8));
         panel3.setOpaque(false);
 
+
         forText1.setText("My nickname: ");
-     //   forText1.setHorizontalAlignment(JTextField.RIGHT);
         panel3.add(forText1);
         textField1.setMaximumSize(new Dimension(200 , 25));
-        panel3.add(textField1, BorderLayout.SOUTH);
-        panel3.add(button1);
+        panel3.add(textField1);
+        panel3.add(apply);
 
 
 
@@ -95,14 +100,13 @@ public class MainForm {
         panel4.add(Box.createVerticalStrut(15));
         panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
  
-        panel4.setPreferredSize(new Dimension(screenWidth/4,screenHeight / 4));
-        panel4.setMaximumSize(new Dimension(screenWidth/2,screenHeight / 2));
-        panel4.setMinimumSize(new Dimension(screenWidth/4,screenHeight / 4));
+        panel4.setPreferredSize(new Dimension(screenWidth/8,screenHeight / 8));
+        panel4.setMaximumSize(new Dimension(screenWidth/4,screenHeight / 4));
+        panel4.setMinimumSize(new Dimension(screenWidth/8,screenHeight / 8));
         panel4.setOpaque(false);
 
 
         forText2.setText("Remote addr: ");
-      //  forText2.setHorizontalAlignment(JTextField.RIGHT);
         panel4.add(forText2);
         textField2.setMaximumSize(new Dimension(200 , 25));
         panel4.add(textField2, BorderLayout.SOUTH);
@@ -120,78 +124,78 @@ public class MainForm {
         
         panel5.setLayout(new BoxLayout(panel5, BoxLayout.X_AXIS));
 
-      /*  textArea.setMaximumSize(new Dimension(screenWidth, screenHeight));
-        textArea.setPreferredSize(new Dimension(screenWidth/2, screenWidth/4));
-        textArea.setMinimumSize(new Dimension(screenWidth/2,screenHeight/2));*/
-
-        textArea.setCaretColor(Color.BLACK);
-        textArea.setWrapStyleWord(true);
-        textArea.setLineWrap(true);
-        panel5.add(new JScrollPane(textArea));
-        panel5.add(button3);
+        panel5.add(new JScrollPane(textAreaForMessenger));
+        panel5.add(send);
         
         
         
         //панель для вывода сообщений на экран
        // Color color3 = new Color(255, 255, 255);
        // panel6.setBackground(color3);
-     /*
-        panel6.setMaximumSize(new Dimension(screenWidth, screenHeight));
-        panel6.setPreferredSize(new Dimension(screenWidth/2, screenWidth/4));
-        panel6.setMinimumSize(new Dimension(screenWidth/2,screenHeight/2));
-*/
-        label.setMaximumSize(new Dimension(screenWidth, screenHeight));
-        label.setPreferredSize(new Dimension(screenWidth/2, screenWidth/4));
-        label.setMinimumSize(new Dimension(screenWidth/2,screenHeight/2));
 
+        panel7.setMaximumSize(new Dimension(400, 300));
+        panel7.setPreferredSize(new Dimension(400 ,300));
+        panel7.setMinimumSize(new Dimension(400,300));
 
+        panel7.setLayout(new BoxLayout(panel7, BoxLayout.X_AXIS));
 
+        textArea.setMaximumSize(new Dimension(400, 300));
+        textArea.setPreferredSize(new Dimension(400, 300));
+        textArea.setMinimumSize(new Dimension(400,300));
+
+        areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        panel7.add(new JScrollPane(textArea));
+        textArea.setEditable(false);
 
 
         //панель для кнопочек
-        panel7.setLayout(new BoxLayout(panel7, BoxLayout.LINE_AXIS));
-        panel7.add(button2);
-        panel7.add(button4);
+        panel6.setLayout(new BoxLayout(panel6, BoxLayout.LINE_AXIS));
+        panel6.add(connect);
+        panel6.add(disconnect);
 
 
-
-//////////////////почитать про кнопочки!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         //действия для кнопочек
-        button1.addActionListener(new ActionListener() {
+        apply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String nickname = textField1.getText();
-                label.setText("Your nickname: " + nickname);
+                nickname = textField1.getText();
+                textArea.append("   Your nickname: " + nickname + "\n");
 
-                //тестовое действие
+                apply.setEnabled(false);
             }
         });
 
 
-        button2.addActionListener(new ActionListener() {
+        connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String ip = textField2.getText();
-                label.setText("ip addr: " + ip);
+                ip = textField2.getText();
+                textArea.append("   ip addr: " + ip + "\n");
 
-                //тестовое действие
+                connect.setEnabled(false);
+                disconnect.setEnabled(true);
             }
         });
 
 
-        button3.addActionListener(new ActionListener() {
+        send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String messenger = textField2.getText();
-                label.setText(messenger); // не работает
+                String messenger = textAreaForMessenger.getText();
 
-                //тестовое действие
+                long curTime = System.currentTimeMillis();
+                String time = new SimpleDateFormat("HH:mm:ss").format(curTime);
+
+                textArea.append("\n"  + "   " + nickname + " " + time + ":" + "\n" + " " + messenger + "\n");
             }
         });
 
-        button4.addActionListener(new ActionListener() {
+
+        disconnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
                 //какое-то действие
+
+                disconnect.setEnabled(false);
+                connect.setEnabled(true);
             }
         });
 
@@ -201,12 +205,11 @@ public class MainForm {
         frame.add(panel1);
         panel1.add(panel2, BorderLayout.NORTH);
         panel1.add(panel5, BorderLayout.SOUTH);
-        panel1.add(new JScrollPane(label));
-       // panel1.add(label, BorderLayout.CENTER);
-      //  panel1.add(panel6, BorderLayout.CENTER);
+        panel1.add(panel7);
         panel2.add(panel3);
         panel2.add(panel4);
-        panel4.add(panel7);
+        panel4.add(panel6);
+
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
