@@ -8,15 +8,10 @@ import java.net.SocketAddress;
  */
 public class CallListener{          //начат
 
-    Socket socket;
-    ServerSocket serverSocket;
 
 
-   public Connection getConnection() throws IOException {
-       serverSocket = new ServerSocket(Protocol.PORT);         // создаем server socket
-       Socket socket = serverSocket.accept();                 // ждем вх. подключения
 
-       //дождались
+   public Connection getConnection(Socket socket) throws IOException {
        Connection c = new Connection(socket);
        if (Protocol.isBusy == true) {                              //если при этом у нас занято
            c.sendNickBusy(Protocol.nick);
