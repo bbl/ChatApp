@@ -1,4 +1,4 @@
-﻿import javax.swing.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +50,9 @@ public class MainForm implements Observer {
  
     public MainForm(){
     	//сама форма становится наблюдателем
-    	comThread.addObserver(this);
+        callThread = new CallListenerThread();
+       // comThread = new CommandListenerThread();
+//
     	callThread.addObserver(this);
     	
     	//создание рамки исходя из размеров монитора по цетру экрана

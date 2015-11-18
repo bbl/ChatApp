@@ -11,6 +11,7 @@ public class CallListenerThread extends Observable implements Runnable  {   //п
     CallListener callListener;
     Socket socket;
     ServerSocket serverSocket;
+    private volatile boolean disconnected;
 
     @Override
     public  void run(){  // В цикле вызывает getConnection у callListener'а и оповещает наблюдателей (из описания)
@@ -31,8 +32,19 @@ public class CallListenerThread extends Observable implements Runnable  {   //п
 
     }
 
-    public void start(){}
-    public void stop(){}
+    void start() {
+        this.disconnected = false;
+        Thread t = new Thread(this);
+        t.start();
+    }
+
+    boolean isDisconnected() {
+        return disconnected;
+    }
+
+    void stop() {
+        disconnected = true;
+    }
 
 
 
