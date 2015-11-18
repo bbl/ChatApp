@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 
 
@@ -8,11 +9,17 @@ import java.net.Socket;
  * Created by user on 10.11.2015.
  */
 public class Caller {
-    Connection call(InetAddress ipAddr, int PORT, String nick){
+	InetAddress ipAddr;
+	
+	public Caller(String ip) throws UnknownHostException{
+		ipAddr = InetAddress.getByName(ip);
+	}
+	
+    Connection call(){
         try {
-            Socket socket = new Socket(ipAddr, PORT);
+            Socket socket = new Socket(ipAddr,Protocol.PORT);
             Connection conn = new Connection(socket);
-            conn.sendNickHello(nick);
+            conn.sendNickHello(Protocol.NICK);
             if (conn.receive().getType()== Command.CommandType.NICK){return conn;}
 
         }

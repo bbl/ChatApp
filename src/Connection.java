@@ -35,7 +35,7 @@ public class Connection {
 	}
 
 	public void sendNickHello(String nick) throws IOException{
-		pount.print("ChatApp 2015 user "+Protocol.nick);
+		pount.print("ChatApp 2015 user "+Protocol.NICK);
 		pount.flush();
 	}
 
