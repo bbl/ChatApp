@@ -7,7 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-
 public class Test2 {
 
 	/**
@@ -25,10 +24,8 @@ public class Test2 {
 		Connection con = new Connection(socket);
 		System.out.println("Клиент подключен");
 		System.out.println();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				socket.getInputStream(), "UTF-8"));
 		while (true) {
-			//con.receive().toString();
+			// con.receive().toString();
 			System.out.println(con.isOpen());
 			System.out.println(con.receive().toString());
 		}
