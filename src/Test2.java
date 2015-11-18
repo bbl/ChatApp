@@ -15,15 +15,16 @@ public class Test2 {
 			IOException {
 
 		ServerSocket ss = new ServerSocket(Protocol.PORT);
-		System.out.println("Ждем клиента...");
+		System.out.println("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ...");
 
 		Socket socket = ss.accept();
 		ss.close();
 		Connection con = new Connection(socket);
-		System.out.println("Клиент подключен");
+		System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		System.out.println();
 		while (true) {
-			System.out.println(con.receive().getType());
+			Command tmpCom = con.receive();
+			if (tmpCom!=null){System.out.println(tmpCom.getType());}
 		}
 
 	}

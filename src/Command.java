@@ -31,7 +31,7 @@ public class Command {
 			return new Command(CommandType.MESSAGE);
 		return null;
 	}
-		else return new Command(CommandType.DISCONNECT);
+		else return null;
 	}
 }
 

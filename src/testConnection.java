@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 
 /**
@@ -16,10 +17,11 @@ public class testConnection {
 				Protocol.PORT);
 		Connection con = new Connection(sock);
 
-		while(true){
+		//while(true){
 		con.accept();
 		con.reject();
-		}
+		con.disconnect();
+	//	}
 	}
 
 }

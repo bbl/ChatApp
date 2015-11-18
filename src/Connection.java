@@ -10,37 +10,40 @@ public class Connection {
 	OutputStream sout;
 	PrintWriter pount;
 
+	BufferedReader reader;
+
+
 	public Connection(Socket socket) throws IOException {
 		this.socket = socket;
 		 sout= socket.getOutputStream();
-		 pount = new PrintWriter(sout, true);}
+		 pount = new PrintWriter(sout, true);
+		reader = new BufferedReader(new InputStreamReader(
+				socket.getInputStream(), "UTF-8"));
+		}
 
 
 
 
 	public void accept() throws IOException {
-		pount.println("Accepted");
+		pount.println("Accepted"+Protocol.LINE_END);
 		pount.flush();
-		//pount.close();
-		//sout.close();
 	}
 
 	public void reject() throws IOException {
-		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout, true);
-		pount.print("Rejected");
+		pount.print("Rejected"+Protocol.LINE_END);
+		pount.flush();
 	}
 
 	public void sendNickHello(String nick) throws IOException{
-		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout, true);
-		pount.print("ChatApp 2015 user %username%");  //вместо %username% будет использоваться соответствующий геттер 
+		pount.print("ChatApp 2015 user "+Protocol.nick);
+		pount.flush();
 	}
+
 	public void sendNickBusy(String nick) throws IOException{
-		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout, true);
-		pount.print("ChatApp 2015 user %username% busy"); 
+		pount.print("ChatApp 2015 user %username% busy");
+		pount.flush();
 	}
+
 	public void sendMessage(String msg) throws IOException {
 		OutputStream sout = socket.getOutputStream();
 		PrintWriter pount = new PrintWriter(sout, true);
@@ -58,10 +61,9 @@ public class Connection {
 	}
 
 	public Command receive() throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				socket.getInputStream(), "UTF-8"));
 		String type = reader.readLine();
 		Command c = Command.createCommand(type);
 		return c;
+
 	}
 }
