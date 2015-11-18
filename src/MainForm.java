@@ -1,13 +1,16 @@
-import javax.swing.*;
+﻿import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Julia on 10.11.2015.
  */
-public class MainForm {
+public class MainForm implements Observer {
  
     final JFrame frame = new JFrame("ChatApp 1.0");
     final JPanel panel1 = new JPanel(); //главная панель
@@ -31,8 +34,9 @@ public class MainForm {
     public String nickname;
     public String ip;
     public boolean check; //проверка для блокировки кнопок "Connect" и "Disconnect"
-
-
+    
+    private CommandListenerThread comThread;
+    private CallListenerThread callThread;
 
     public static void main(String args[]){
         SwingUtilities.invokeLater(new Runnable(){
@@ -45,8 +49,11 @@ public class MainForm {
 
  
     public MainForm(){
-
-        //создание рамки исходя из размеров монитора по цетру экрана
+    	//сама форма становится наблюдателем
+    	comThread.addObserver(this);
+    	callThread.addObserver(this);
+    	
+    	//создание рамки исходя из размеров монитора по цетру экрана
  
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
@@ -174,6 +181,21 @@ public class MainForm {
 
                 connect.setEnabled(false);
                 disconnect.setEnabled(true);
+                
+                try {
+					Caller caller = new Caller(ip);
+					Connection con = caller.call();
+					if (con!=null){
+						comThread = new CommandListenerThread(con);
+						comThread.start();
+					}
+					else{
+						textArea.append("  could not connect ip addr: " + ip +"\n");
+					}
+				} catch (UnknownHostException e1) {
+					//e1.printStackTrace();
+					//////
+				}
             }
         });
 
@@ -214,4 +236,17 @@ public class MainForm {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o.getClass()==CommandListenerThread.class){
+			textArea.append(arg.toString());
+		}
+		else {
+			
+		}
+		
+	}
 }
