@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 
  */
 public class Command {
@@ -18,6 +18,7 @@ public class Command {
 	}
 
 	static Command createCommand(String s) {
+		if (s!=null){
 		if (s.contains("Accepted"))
 			return new Command(CommandType.ACCEPT);
 		else if (s.contains("Rejected"))
@@ -29,6 +30,8 @@ public class Command {
 		else if (s.contains("Message"))                                          //аналогично
 			return new Command(CommandType.MESSAGE);
 		return null;
+	}
+		else return new Command(CommandType.DISCONNECT);
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created by user on 06.11.2015. тут будут всякие константы, шаблоны
  */
 public class Protocol {

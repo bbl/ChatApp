@@ -1,4 +1,4 @@
-﻿import java.io.*;
+import java.io.*;
 import java.net.Socket;
 
 public class Connection {
@@ -7,17 +7,22 @@ public class Connection {
 
 	private boolean open;
 
-	public Connection(Socket socket) {
+	OutputStream sout;
+	PrintWriter pount;
+
+	public Connection(Socket socket) throws IOException {
 		this.socket = socket;
-	}
+		 sout= socket.getOutputStream();
+		 pount = new PrintWriter(sout, true);}
+
+
+
 
 	public void accept() throws IOException {
-		OutputStream sout = socket.getOutputStream();
-		PrintWriter pount = new PrintWriter(sout, true);
-		pount.print("Accepted");
-		pount.close();
-		sout.close();
-		
+		pount.println("Accepted");
+		pount.flush();
+		//pount.close();
+		//sout.close();
 	}
 
 	public void reject() throws IOException {

@@ -13,7 +13,7 @@ public class Caller {
             Socket socket = new Socket(ipAddr, PORT);
             Connection conn = new Connection(socket);
             conn.sendNickHello(nick);
-            if (conn.receive().getType()== NICK){return conn;}
+            if (conn.receive().getType()== Command.CommandType.NICK){return conn;}
 
         }
         catch (IOException ioe){ioe.printStackTrace();}

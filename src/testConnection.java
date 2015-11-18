@@ -18,7 +18,7 @@ public class testConnection {
 
 		while(true){
 		con.accept();
-		con.accept();
+		con.reject();
 		}
 	}
 
