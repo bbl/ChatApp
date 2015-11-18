@@ -258,7 +258,7 @@ public class MainForm implements Observer {
 			textArea.append(arg.toString());
 		}
 		else {
-			
+			//if observable == calllistenerThread do ...
 		}
 		
 	}
