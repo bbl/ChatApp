@@ -4,8 +4,17 @@ public class MessageCommand extends Command {
 
 	MessageCommand(CommandType type, String msg) {
 		super(type);
-		this.msg = msg;
+		this.setMsg(msg);
 
 	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+	
 
 }

@@ -31,17 +31,18 @@ public class Connection {
 	}
 
 	public void sendNickHello(String nick) throws IOException {
-		pount.print("ChatApp 2015 user " + Protocol.NICK+Protocol.LINE_END);
+		pount.print("ChatApp 2015 user " + Protocol.NICK + Protocol.LINE_END);
 		pount.flush();
 	}
 
 	public void sendNickBusy(String nick) throws IOException {
-		pount.print("ChatApp 2015 user " + Protocol.NICK+" busy"+Protocol.LINE_END);
+		pount.print("ChatApp 2015 user " + Protocol.NICK + " busy"
+				+ Protocol.LINE_END);
 		pount.flush();
 	}
 
 	public void sendMessage(String msg) throws IOException {
-		pount.print("Message: " + Protocol.LINE_END + msg+Protocol.LINE_END);
+		pount.print("Message" + msg + Protocol.LINE_END);
 		pount.flush();
 	}
 

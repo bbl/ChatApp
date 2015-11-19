@@ -50,11 +50,13 @@ public class MainForm implements Observer {
 
 
  
+   
     public MainForm(){
     	obj = this;
     	//сама форма становится наблюдателем
         callThread = new CallListenerThread();
         callThread.start();
+     
        // comThread = new CommandListenerThread();
 //		
     	//callThread.addObserver(this);
@@ -173,6 +175,7 @@ public class MainForm implements Observer {
         apply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 nickname = textField1.getText();
+                Protocol.NICK=nickname;
                 textArea.append("   Your nickname: " + nickname + "\n");
 
                 apply.setEnabled(false);
@@ -193,7 +196,7 @@ public class MainForm implements Observer {
 					Connection con = caller.call();
 					if (con!=null){
 						comThread = new CommandListenerThread(con);
-						comThread.addObserver(obj);
+						comThread.addObserver(MainForm.this);
 						comThread.start();
 					}
 					else{
@@ -216,7 +219,12 @@ public class MainForm implements Observer {
 
                 textArea.append("\n"  + "   " + nickname + " " + time + ":" + "\n" + " " + messenger + "\n");
                 try {
-					comThread.getConnection().sendMessage(messenger);
+					//callThread.getConnection().sendMessage(messenger);
+                	if(comThread!=null){
+                	comThread.getConnection().sendMessage(messenger);}
+                	else{
+                		callThread.getConnection().sendMessage(messenger);
+                	}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -228,7 +236,6 @@ public class MainForm implements Observer {
         disconnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //какое-то действие
-
                 disconnect.setEnabled(false);
                 connect.setEnabled(true);
             }
@@ -254,12 +261,18 @@ public class MainForm implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o.getClass()==CommandListenerThread.class){
-			textArea.append(arg.toString());
+		NickCommand c;
+		MessageCommand mescom;
+		if(arg instanceof NickCommand){
+			c=(NickCommand) arg;
+			textArea.append(c.intoString()+Protocol.LINE_END);
 		}
-		else {
-			//if observable == calllistenerThread do ...
+		if(arg instanceof MessageCommand){
+			mescom=(MessageCommand) arg;
+			textArea.append("Message: "+mescom.getMsg()+Protocol.LINE_END);
 		}
+			
+			
 		
 	}
 }

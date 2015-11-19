@@ -20,13 +20,14 @@ public class CallListenerThread extends Observable implements Runnable  {   //п
             while (true){
                       // создаем server socket
                 socket = serverSocket.accept();                 // ждем вх. подключения
-                callListener = new CallListener();
-                Connection conn = callListener.getConnection(socket);
+               // callListener = new CallListener();
+                Connection conn = new Connection(socket);
+               
                 if (conn!=null) {
                     CommandListenerThread clt = new CommandListenerThread(conn);
                     clt.addObserver(MainForm.obj);
                     clt.start();
-                    
+                    conn.sendNickHello(Protocol.NICK);
                 }
             }
         } catch (IOException e) {
@@ -47,6 +48,16 @@ public class CallListenerThread extends Observable implements Runnable  {   //п
 
     void stop() {
         disconnected = true;
+    }
+    public Connection getConnection(){
+    	if(socket!=null){
+    		try {
+				return new Connection(socket);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return null;
     }
 
 

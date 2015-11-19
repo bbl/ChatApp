@@ -10,8 +10,8 @@ public class NickCommand extends Command {
 		this.nick = nick;
 	}
 
-	public String intoString(String nick) {
-		String s = type.toString() + ' ' + nick + Protocol.LINE_END;
+	public String intoString() {
+		String s = type.toString() + ' ' + Protocol.NICK + Protocol.LINE_END;
 		return s;
 	}
 

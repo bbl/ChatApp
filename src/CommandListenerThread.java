@@ -20,7 +20,9 @@ public class CommandListenerThread extends Observable implements Runnable {
 			synchronized (this) {
 				try {
 					this.lastCommand = con.receive();
-					notifyObservers(con.receive());
+					this.addObserver(MainForm.obj);
+					 setChanged();
+					this.notifyObservers(lastCommand);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
