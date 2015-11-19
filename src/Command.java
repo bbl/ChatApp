@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 
  */
 public class Command {
@@ -26,9 +26,9 @@ public class Command {
 		else if (s.contains("Disconnect"))
 			return new Command(CommandType.DISCONNECT);
 		else if (s.contains("ChatApp 2015"))
-			return new NickCommand(CommandType.NICK,"передать в конструкор ник"); //доделать (убрать из сообщения все, кроме самого ника)
+			return new NickCommand(CommandType.NICK,s.replaceAll("ChatApp 2015 user ", "")); //доделать (убрать из сообщения все, кроме самого ника)
 		else if (s.contains("Message"))                                          //аналогично
-			return new Command(CommandType.MESSAGE);
+			return new MessageCommand(CommandType.MESSAGE,s.replaceAll("Message", ""));
 		return null;
 	}
 		else return null;

@@ -16,14 +16,17 @@ public class CallListenerThread extends Observable implements Runnable  {   //п
     @Override
     public  void run(){  // В цикле вызывает getConnection у callListener'а и оповещает наблюдателей (из описания)
         try {
+        	  serverSocket = new ServerSocket(Protocol.PORT); 
             while (true){
-                serverSocket = new ServerSocket(Protocol.PORT);         // создаем server socket
+                      // создаем server socket
                 socket = serverSocket.accept();                 // ждем вх. подключения
                 callListener = new CallListener();
                 Connection conn = callListener.getConnection(socket);
                 if (conn!=null) {
                     CommandListenerThread clt = new CommandListenerThread(conn);
+                    clt.addObserver(MainForm.obj);
                     clt.start();
+                    
                 }
             }
         } catch (IOException e) {

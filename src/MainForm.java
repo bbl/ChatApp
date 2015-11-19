@@ -1,7 +1,8 @@
-import javax.swing.*;
+﻿import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Observable;
@@ -37,6 +38,7 @@ public class MainForm implements Observer {
     
     private CommandListenerThread comThread;
     private CallListenerThread callThread;
+    public static Observer obj;
 
     public static void main(String args[]){
         SwingUtilities.invokeLater(new Runnable(){
@@ -49,11 +51,13 @@ public class MainForm implements Observer {
 
  
     public MainForm(){
+    	obj = this;
     	//сама форма становится наблюдателем
         callThread = new CallListenerThread();
+        callThread.start();
        // comThread = new CommandListenerThread();
-//
-    	callThread.addObserver(this);
+//		
+    	//callThread.addObserver(this);
     	
     	//создание рамки исходя из размеров монитора по цетру экрана
  
@@ -189,6 +193,7 @@ public class MainForm implements Observer {
 					Connection con = caller.call();
 					if (con!=null){
 						comThread = new CommandListenerThread(con);
+						comThread.addObserver(obj);
 						comThread.start();
 					}
 					else{
@@ -210,6 +215,12 @@ public class MainForm implements Observer {
                 String time = new SimpleDateFormat("HH:mm:ss").format(curTime);
 
                 textArea.append("\n"  + "   " + nickname + " " + time + ":" + "\n" + " " + messenger + "\n");
+                try {
+					comThread.getConnection().sendMessage(messenger);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
 

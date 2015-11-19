@@ -44,4 +44,7 @@ public class CommandListenerThread extends Observable implements Runnable {
 	void stop() {
 		disconnected = true;
 	}
+	public Connection getConnection(){
+		return this.con;
+	}
 }

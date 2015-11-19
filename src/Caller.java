@@ -20,7 +20,8 @@ public class Caller {
             Socket socket = new Socket(ipAddr,Protocol.PORT);
             Connection conn = new Connection(socket);
             conn.sendNickHello(Protocol.NICK);
-            if (conn.receive().getType()== Command.CommandType.NICK){return conn;}
+            return conn;
+          //  if (conn.receive().getType()== Command.CommandType.NICK){return conn;}
 
         }
         catch (IOException ioe){ioe.printStackTrace();}
