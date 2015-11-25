@@ -20,10 +20,12 @@ public class CallListenerThread extends Observable implements Runnable  {   //п
             while (true){
                       // создаем server socket
                 socket = serverSocket.accept();                 // ждем вх. подключения
-               // callListener = new CallListener();
+               // callListener = new CallListener();       // почему не используется?
                 Connection conn = new Connection(socket);
                
                 if (conn!=null) {
+                    // вывести запрос принять/отклонить на форму
+                    // при положит. ответе - создать CLT, установить ему наблюдателя
                     CommandListenerThread clt = new CommandListenerThread(conn);
                     clt.addObserver(MainForm.obj);
                     clt.start();
