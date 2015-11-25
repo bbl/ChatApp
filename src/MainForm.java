@@ -217,7 +217,7 @@ public class MainForm implements Observer {
                 long curTime = System.currentTimeMillis();
                 String time = new SimpleDateFormat("HH:mm:ss").format(curTime);
 
-                textArea.append("\n"  + "   " + nickname + " " + time + ":" + "\n" + " " + messenger + "\n");
+                textArea.append("\n"  + "   " + nickname + " " + time + ":" + "\n" + "   " + messenger + "\n");
                 try {
 					//callThread.getConnection().sendMessage(messenger);
                 	if(comThread!=null){
@@ -269,7 +269,7 @@ public class MainForm implements Observer {
 		}
 		if(arg instanceof MessageCommand){
 			mescom=(MessageCommand) arg;
-			textArea.append("Message: "+mescom.getMsg()+Protocol.LINE_END);
+			textArea.append("Incoming Message: "+mescom.getMsg()+Protocol.LINE_END);
 		}
 			
 			

@@ -11,7 +11,7 @@ public class NickCommand extends Command {
 	}
 
 	public String intoString() {
-		String s = type.toString() + ' ' + this.nick + Protocol.LINE_END;
+		String s = "Connected to: " + this.nick + Protocol.LINE_END;
 		return s;
 	}
 

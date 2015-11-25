@@ -42,7 +42,7 @@ public class Connection {
 	}
 
 	public void sendMessage(String msg) throws IOException {
-		pount.print("Message" + msg + Protocol.LINE_END);
+		pount.print("Message" + Protocol.LINE_END + msg + Protocol.LINE_END);
 		pount.flush();
 	}
 
@@ -57,6 +57,9 @@ public class Connection {
 
 	public Command receive() throws IOException {
 		String type = reader.readLine();
+		if(type.contains("Message")){
+			type+=reader.readLine();
+		}
 		Command c = Command.createCommand(type);
 		return c;
 

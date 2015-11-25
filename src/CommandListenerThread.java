@@ -16,11 +16,11 @@ public class CommandListenerThread extends Observable implements Runnable {
 
 	@Override
 	public void run() {
+		this.addObserver(MainForm.obj);
 		while (isDisconnected() != true) {
 			synchronized (this) {
 				try {
 					this.lastCommand = con.receive();
-					this.addObserver(MainForm.obj);
 					 setChanged();
 					this.notifyObservers(lastCommand);
 				} catch (IOException e) {
