@@ -1,4 +1,4 @@
-import java.io.*;
+﻿import java.io.*;
 import java.net.Socket;
 
 public class Connection {
@@ -21,7 +21,7 @@ public class Connection {
 	}
 
 	public void accept() throws IOException {
-		pount.println("Accepted" + Protocol.LINE_END);
+		pount.print("Accepted" + Protocol.LINE_END);
 		pount.flush();
 	}
 

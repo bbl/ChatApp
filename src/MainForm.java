@@ -1,4 +1,4 @@
-import javax.imageio.ImageIO;
+﻿import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,9 +85,9 @@ public class MainForm implements Observer {
         //главная палень на которой будут лежать остальные
        // Color color = new Color(48, 40, 255);
        // panel1.setBackground(color);
-        BufferedImage myPicture = ImageIO.read(new File("416658223.jpg"));
-        JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-        panel1.add(picLabel);
+       // BufferedImage myPicture = ImageIO.read(new File("416658223.jpg"));
+        //JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+      //  panel1.add(picLabel);
         panel1.setLayout(new BorderLayout());
 
 
