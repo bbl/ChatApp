@@ -40,20 +40,26 @@ public class HistoryModel extends Observable {
 	}
 
 	public void addMessage(Message m) {
+		synchronized (this) {
 		messages.add(m);
 		this.setChanged();
-		this.notifyAll();
+		this.notifyObservers();
+		}
 	}
 
 	public void addMessage(String nick, Date date, String text) {
+		synchronized (this) {
 		messages.add(new Message(nick, date, text));
 		this.setChanged();
-		this.notifyAll();
+		this.notifyObservers();
+		}
 	}
 
 	public void clear() {
+		synchronized (this) {
 		messages.clear();
 		this.setChanged();
-		this.notifyAll();
+		this.notifyObservers();
+		}
 	}
 }
