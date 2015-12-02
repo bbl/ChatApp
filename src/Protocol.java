@@ -7,4 +7,5 @@ public class Protocol {
 	public static boolean isBusy;
 	public static String NICK;
 	public static String curNick; // ник человека, с которым сейчас ведется беседа. убрать из констант, когда появятся множественные диалоги
+	public static ServerConnection c = new ServerConnection();
 }

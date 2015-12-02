@@ -428,6 +428,10 @@ public class MainForm implements Observer {
         callThread = new CallListenerThread();
         callThread.start();
 
+
+
+
+
         // comThread = new CommandListenerThread();
 //		
         //callThread.addObserver(this);
@@ -550,15 +554,32 @@ public class MainForm implements Observer {
         panel6.add(disconnect);
 
 
+
+
+
+        Protocol.c.setServerAddress("jdbc:mysql://files.litvinov.in.ua/chatapp_server?characterEncoding=utf-8&useUnicode=true");
+        Protocol.c.connect();
+        if(Protocol.c.isConnected()==false){
+            textArea.append("[System] Could not connect to the server"+ "\n");
+        }else {textArea.append("[System] You connected to the server"+ "\n");}
+
         Protocol.NICK="unnamed";
         textArea.append("[System] Your current nick is unnamed. " + "\n"+"You may change it by writing a new nickname in the field above and clicking the Change button."+ "\n");
+
+        Protocol.c.setLocalNick(Protocol.NICK);
+        Protocol.c.goOnline();
+
+
+
+
+
 
         //действия для кнопочек
         apply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Protocol.NICK = textField1.getText();
-               // Protocol.NICK=nickname;
-                textArea.append("   Your nickname: " + Protocol.NICK + "\n");
+                Protocol.c.setLocalNick(Protocol.NICK);
+                textArea.append("[System] Nickname changed to: " + Protocol.NICK + "\n");
 
                 apply.setEnabled(false);
             }
@@ -613,7 +634,7 @@ public class MainForm implements Observer {
                 long curTime = System.currentTimeMillis();
                 String time = new SimpleDateFormat("HH:mm:ss").format(curTime);
 
-                textArea.append("\n"  + "   " + nickname + " " + time + ":" + "\n" + "   " + messenger + "\n");
+                textArea.append("\n"  + "   " + Protocol.NICK + " " + time + ":" + "\n" + "   " + messenger + "\n");
                 textAreaForMessenger.setText("");
                 try {
                     //callThread.getConnection().sendMessage(messenger);
@@ -721,7 +742,12 @@ public class MainForm implements Observer {
         }
         if(arg instanceof MessageCommand){
             mescom=(MessageCommand) arg;
-            textArea.append("Incoming Message: "+mescom.getMsg()+Protocol.LINE_END);
+
+            long curTime = System.currentTimeMillis();
+            String time = new SimpleDateFormat("HH:mm:ss").format(curTime);
+
+            textArea.append("\n"  + "   " + Protocol.curNick + " " + time + ":" + "\n" + "   " + mescom.getMsg() + "\n");
+           // textArea.append("Incoming Message: "+mescom.getMsg()+Protocol.LINE_END);
         }
         if(arg instanceof Command){
             com =(Command) arg;
