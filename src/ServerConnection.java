@@ -231,7 +231,7 @@ public class ServerConnection {
 	}
 
 	public static void main(String[] args) {
-		String nick1 = "latin&кириллица";
+		String nick1 = "testqwe";
 		String nick2 = "another";
 
 		ServerConnection c = new ServerConnection();
