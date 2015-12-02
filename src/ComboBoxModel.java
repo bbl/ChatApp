@@ -59,5 +59,13 @@ public class ComboBoxModel extends Observable {
 	public List<User> getAllUsers() {
 		return users;
 	}
+	
+	public void setOnline(int index){
+		synchronized (this) {
+		users.get(index).setOnline();
+		this.setChanged();
+		this.notifyObservers();
+		}
+	}
 
 }
