@@ -385,9 +385,12 @@ public class MainForm implements Observer {
     final JPanel panel6 = new JPanel(); //панель для кнопочек "Connect" и "Disconnect"
     final JPanel panel7 = new JPanel();  //панель для вывода сообщений на экран
     final JPanel panel8 = new JPanel(); //панель для кнопочек "всплывающег окна
+    final JPanel panel9 = new JPanel(); //панель для ввода сообщений и вывода сообщений
+    final JPanel panel10 = new JPanel();
     final JLabel forText1 = new JLabel();
     final JLabel forText2 = new JLabel();
     final JLabel forText3 = new JLabel();
+    final JLabel forText4 = new JLabel();
     final TextField textField1 = new TextField(35);//для ввода своего ника
     final TextField textField2 = new TextField(35); //для ввода ip друга
     final JTextArea textArea = new JTextArea(); //для вывода сообщения
@@ -399,7 +402,10 @@ public class MainForm implements Observer {
     final JButton disconnect = new JButton("Disconnect");
     final JButton accept = new JButton("Accept");
     final JButton reject = new JButton("Reject");
+    final JButton add = new JButton("Add");
+    final JButton del = new JButton("Del");
     final JScrollPane areaScrollPane = new JScrollPane(textArea);
+    
     public String nickname;
     public String ip;
 
@@ -512,9 +518,9 @@ public class MainForm implements Observer {
 
         //панель ввода текста
         panel5.setOpaque(false);
-        panel5.setMaximumSize(new Dimension(screenWidth /4, screenHeight / 25));
-        panel5.setPreferredSize(new Dimension(screenWidth /4 ,screenHeight / 25));
-        panel5.setMinimumSize(new Dimension(screenWidth/4,screenHeight / 25));
+        panel5.setMaximumSize(new Dimension(screenWidth /2, screenHeight / 25));
+        panel5.setPreferredSize(new Dimension(screenWidth /2 ,screenHeight / 25));
+        panel5.setMinimumSize(new Dimension(screenWidth/2,screenHeight / 25));
 
         panel5.setLayout(new BoxLayout(panel5, BoxLayout.X_AXIS));
 
@@ -527,9 +533,9 @@ public class MainForm implements Observer {
 
         //панель для вывода сообщений на экран
         panel7.setOpaque(false);
-        panel7.setMaximumSize(new Dimension(400, 300));
-        panel7.setPreferredSize(new Dimension(400 ,300));
-        panel7.setMinimumSize(new Dimension(400,300));
+        panel7.setMaximumSize(new Dimension(screenWidth/2, 500));
+        panel7.setPreferredSize(new Dimension(screenWidth/2 ,500));
+        panel7.setMinimumSize(new Dimension(screenWidth/2,500));
 
         panel7.setLayout(new BorderLayout());
 
@@ -588,6 +594,9 @@ public class MainForm implements Observer {
 
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	add.setEnabled(true);
+                del.setEnabled(true);
+            	
                 ip = textField2.getText();
                 textArea.append("   ip addr: " + ip + "\n");
 
@@ -687,7 +696,6 @@ public class MainForm implements Observer {
         frame1.setSize(200, 100);
         frame1.add(panel8, BorderLayout.SOUTH);
         frame1.setAlwaysOnTop(true);
-      //  frame1.pack();
         frame1.setVisible(false); //будет тру когда звонят
         
         
@@ -705,15 +713,87 @@ public class MainForm implements Observer {
             }
         });
         
+        
+        //для ввода и вывода сообщений
+        panel9.setPreferredSize(new Dimension(screenWidth/2,600));
+        panel9.setMaximumSize(new Dimension(screenWidth/2,600));
+        panel9.setMinimumSize(new Dimension(screenWidth/2,600));
+        
+        
+        //для списка контактов 
+       // Color color = new Color(48, 40, 255);
+        //panel10.setBackground(color);
+        
+        ComboBoxModel сModel = new ComboBoxModel();
+        ComboBoxView сView = new ComboBoxView(сModel);
+        
+        сModel.addUser("Vasya1");
+        сModel.addUser("Vasya2");
+        
+        final JComboBox comboBox = new JComboBox();
+        
+        panel10.setPreferredSize(new Dimension(300,600));
+        panel10.setMaximumSize(new Dimension(300,600));
+        panel10.setMinimumSize(new Dimension(300,600));
+        
+        forText4.setText("Your contact list: ");
+        panel10.add(forText4);
+        
+        
+        //comboBox.setEditable(true);
+        comboBox.setAlignmentY(240);
+        comboBox.setPreferredSize(new Dimension(240, 30));
+        comboBox.setVisible(true);  
+        
+        
+        panel10.add(comboBox);   
+        panel10.add(add);
+        panel10.add(del);
+        
+        add.setEnabled(false);
+        del.setEnabled(false);
+
+        сModel.addUser("Vasya");
+        
+ 
+        
+        
+     /*   ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JComboBox box = (JComboBox)e.getSource();
+                        String item = (String)box.getSelectedItem();
+                       // label.setText(item);
+            }
+        };
+        
+        comboBox.addActionListener(actionListener);
+     */
+        
+        add.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            		
+            }
+        });
+        
+        
+        del.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            	
+            }
+        });
 
 
 
         // добавляем на frame
+        panel9.add(panel7, BorderLayout.CENTER);
+        panel9.add(panel5, BorderLayout.SOUTH);
         frame.add(panel1);
-       // panel1.add(forImage);
+        panel1.add(panel9, BorderLayout.CENTER);
+        panel1.add(panel10, BorderLayout.EAST);
+        
         panel1.add(panel2, BorderLayout.NORTH);
-        panel1.add(panel5, BorderLayout.SOUTH);
-        panel1.add(panel7, BorderLayout.CENTER);
         panel2.add(panel3);
         panel2.add(panel4);
         panel4.add(panel6);
@@ -730,6 +810,7 @@ public class MainForm implements Observer {
     public void update(Observable o, Object arg) {
         send.setEnabled(true);
         connect.setEnabled(false);
+        
 
         NickCommand nickcom;
         MessageCommand mescom;
