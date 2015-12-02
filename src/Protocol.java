@@ -6,4 +6,5 @@ public class Protocol {
 	public static final int PORT = 28411;
 	public static boolean isBusy;
 	public static String NICK;
+	public static String curNick; // ник человека, с которым сейчас ведется беседа. убрать из констант, когда появятся множественные диалоги
 }
