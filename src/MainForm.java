@@ -1,4 +1,4 @@
-﻿import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -192,14 +192,15 @@ public class MainForm implements Observer {
         panel6.add(disconnect);
 
 
-
+        Protocol.NICK="unnamed";
+        textArea.append("[System] Your current nick is unnamed. " + "\n"+"You may change it by writing a new nickname in the field above and clicking the Change button."+ "\n");
 
         //действия для кнопочек
         apply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                nickname = textField1.getText();
-                Protocol.NICK=nickname;
-                textArea.append("   Your nickname: " + nickname + "\n");
+                Protocol.NICK = textField1.getText();
+               // Protocol.NICK=nickname;
+                textArea.append("   Your nickname: " + Protocol.NICK + "\n");
 
                 apply.setEnabled(false);
             }
@@ -262,6 +263,7 @@ public class MainForm implements Observer {
                         comThread.getConnection().sendMessage(messenger);}
                     else{
                         callThread.getConnection().sendMessage(messenger);
+                        // maybe change to -  textArea.append("Looks like we lost him :c"+Protocol.LINE_END); ??
                     }
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -273,6 +275,18 @@ public class MainForm implements Observer {
 
         disconnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+                if(comThread!=null){
+                    try {
+                        comThread.getConnection().disconnect();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                comThread.stop();
+                comThread=null;
+
                 send.setEnabled(false);
                 disconnect.setEnabled(false);
                 connect.setEnabled(true);
@@ -337,15 +351,45 @@ public class MainForm implements Observer {
     public void update(Observable o, Object arg) {
         send.setEnabled(true);
         connect.setEnabled(false);
-        NickCommand c;
+
+        NickCommand nickcom;
         MessageCommand mescom;
+        Command com;
+
         if(arg instanceof NickCommand){
-            c=(NickCommand) arg;
-            textArea.append(c.intoString()+Protocol.LINE_END);
+            nickcom=(NickCommand) arg;
+            //nickcom.getNick();
+            textArea.append(nickcom.intoString()+Protocol.LINE_END);
         }
         if(arg instanceof MessageCommand){
             mescom=(MessageCommand) arg;
             textArea.append("Incoming Message: "+mescom.getMsg()+Protocol.LINE_END);
+        }
+        if(arg instanceof Command){
+            com =(Command) arg;
+            if (com.getType()== Command.CommandType.ACCEPT){
+                //TODO
+                    //начать беседу
+                    // перевести кнопки в режим разговора
+            }
+
+            if (com.getType()== Command.CommandType.REJECT){
+                //TODO
+                    // textArea.append("It seems like "+Protocol.curNick+" doesn't want to talk to you :c"+Protocol.LINE_END);
+                    // убить ComListThread
+                    // вернуть кнопки в режим ожидания
+            }
+
+            if (com.getType()== Command.CommandType.DISCONNECT){
+                textArea.append("Looks like we lost him :c"+Protocol.LINE_END);
+                // убить ComListThread
+                // вернуть кнопки в режим ожидания
+            }
+
+
+
+
+
         }
     }
 }
