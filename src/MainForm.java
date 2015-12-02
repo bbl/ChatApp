@@ -370,20 +370,29 @@ public class MainForm implements Observer {
             if (com.getType()== Command.CommandType.ACCEPT){
                 //TODO
                     //начать беседу
-                    // перевести кнопки в режим разговора
+                connect.setEnabled(false);
+                disconnect.setEnabled(true);
+                send.setEnabled(true);
+                apply.setEnabled(false);
             }
 
             if (com.getType()== Command.CommandType.REJECT){
                 //TODO
-                    // textArea.append("It seems like "+Protocol.curNick+" doesn't want to talk to you :c"+Protocol.LINE_END);
-                    // убить ComListThread
-                    // вернуть кнопки в режим ожидания
+                textArea.append("It seems like "+Protocol.curNick+" doesn't want to talk to you :c"+Protocol.LINE_END);
+                // убить ComListThread
+                connect.setEnabled(true);
+                disconnect.setEnabled(false);
+                send.setEnabled(false);
+                apply.setEnabled(true);
             }
 
             if (com.getType()== Command.CommandType.DISCONNECT){
                 textArea.append("Looks like we lost him :c"+Protocol.LINE_END);
                 // убить ComListThread
-                // вернуть кнопки в режим ожидания
+                connect.setEnabled(true);
+                disconnect.setEnabled(false);
+                send.setEnabled(false);
+                apply.setEnabled(true);
             }
 
 
