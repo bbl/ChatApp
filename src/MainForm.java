@@ -17,7 +17,8 @@ import java.util.Observer;
  */
 public class MainForm implements Observer {
 
-    final JFrame frame = new JFrame("ChatApp 1.0");
+    final JFrame frame = new JFrame("ChatApp 2.0");
+    final JFrame frame1 = new JFrame(); //"всплывающее" окошко для соединения или отказа в соединении "звонящему"
     final JPanel panel1 = new JPanel(); //главная панель
     final JPanel panel2 = new JPanel(); //верхняя панель для ввода своего ника и ip друга
     final JPanel panel3 = new JPanel(); //панель для ввода своего ника
@@ -25,16 +26,21 @@ public class MainForm implements Observer {
     final JPanel panel5 = new JPanel(); //панель для ввода текста
     final JPanel panel6 = new JPanel(); //панель для кнопочек "Connect" и "Disconnect"
     final JPanel panel7 = new JPanel();  //панель для вывода сообщений на экран
+    final JPanel panel8 = new JPanel(); //панель для кнопочек "всплывающег окна
     final JLabel forText1 = new JLabel();
     final JLabel forText2 = new JLabel();
+    final JLabel forText3 = new JLabel();
     final TextField textField1 = new TextField(35);//для ввода своего ника
     final TextField textField2 = new TextField(35); //для ввода ip друга
     final JTextArea textArea = new JTextArea(); //для вывода сообщения
     final JTextArea textAreaForMessenger = new JTextArea();//для ввода сообщения
+    final JLabel forImage = new JLabel();
     final JButton apply = new JButton("Change");
     final JButton connect = new JButton("Connect");
     final JButton send = new JButton("Send");
     final JButton disconnect = new JButton("Disconnect");
+    final JButton accept = new JButton("Accept");
+    final JButton reject = new JButton("Reject");
     final JScrollPane areaScrollPane = new JScrollPane(textArea);
     public String nickname;
     public String ip;
@@ -83,11 +89,14 @@ public class MainForm implements Observer {
 
 
         //главная палень на которой будут лежать остальные
-       // Color color = new Color(48, 40, 255);
+      //  Color color = new Color(48, 40, 255);
        // panel1.setBackground(color);
        // BufferedImage myPicture = ImageIO.read(new File("416658223.jpg"));
         //JLabel picLabel = new JLabel(new ImageIcon(myPicture));
       //  panel1.add(picLabel);
+        
+      /*  ImageIcon picture = new ImageIcon("416658223.jpg");
+        forImage.setIcon(picture);*/
         panel1.setLayout(new BorderLayout());
 
 
@@ -270,18 +279,53 @@ public class MainForm implements Observer {
                 apply.setEnabled(true);
             }
         });
+        
+        
+        
+        //"всплывающее" окошко для соединения или отказа в соединении "звонящему"
+        frame1.setLocationRelativeTo(null);
+      
+        panel8.add(accept);
+        panel8.add(reject);
+        
+        forText3.setText("User " + nickname + " tries to connect to you" + "\n");
+        frame1.add(forText3);
+        
+        frame1.setSize(200, 100);
+        frame1.add(panel8, BorderLayout.SOUTH);
+        frame1.setAlwaysOnTop(true);
+      //  frame1.pack();
+        frame1.setVisible(false); //будет тру когда звонят
+        
+        
+        accept.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            		//если соединился 
+            }
+        });
+        
+        reject.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            		//если отказался
+            }
+        });
+        
 
 
 
         // добавляем на frame
         frame.add(panel1);
+       // panel1.add(forImage);
         panel1.add(panel2, BorderLayout.NORTH);
         panel1.add(panel5, BorderLayout.SOUTH);
         panel1.add(panel7, BorderLayout.CENTER);
         panel2.add(panel3);
         panel2.add(panel4);
         panel4.add(panel6);
-
+        
+        
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
