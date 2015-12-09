@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -5,12 +6,14 @@ import java.util.Observable;
 public class ComboBoxModel extends Observable {
 	private List<User> users = new ArrayList<User>();
 
-	public static class User {
+	public static class User implements Serializable{
 		String nick;
+		String ip;
 		boolean online;
 
-		public User(String nick) {
+		public User(String nick, String ip, boolean online) {
 			this.nick = nick;
+			this.ip = ip;
 		}
 
 		public String getNick() {
@@ -29,14 +32,19 @@ public class ComboBoxModel extends Observable {
 			this.online = true;
 		}
 
+		public String getIp() {
+			return ip;
+		}
+
 	}
 
-	public void addUser(String nick) {
+	public User addUser(String nick, String ip, boolean online) {
 		synchronized (this) {
-			users.add(new User(nick));
+			users.add(new User(nick, ip, online ));
 			this.setChanged();
 			this.notifyObservers();
 			System.out.println(nick);
+			return users.get(getSize()-1);
 		}
 	}
 

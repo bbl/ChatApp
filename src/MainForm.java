@@ -7,7 +7,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Observable;
@@ -51,7 +56,7 @@ public class MainForm implements Observer {
 	final JButton accept = new JButton("Accept");
 	final JButton reject = new JButton("Reject");
 	final JButton addCombo = new JButton("Add");
-	final JButton delCombo = new JButton("Del");
+	final JButton conCombo = new JButton("Con");
 	final JScrollPane areaScrollPane = new JScrollPane(textArea);
 
 	public String nickname;
@@ -62,6 +67,11 @@ public class MainForm implements Observer {
 	public static Observer obj;
 
 	final TextField friendNick = new TextField(35);
+
+	
+	private ComboBoxModel cModel = new ComboBoxModel();;
+	private ComboBoxView сView = new ComboBoxView(cModel);
+	
 
 	public static void main(String args[]) {
 		try {
@@ -83,7 +93,9 @@ public class MainForm implements Observer {
 	}
 
 	public MainForm() throws IOException {
-
+		
+		cModel.addObserver(сView);
+		
 		obj = this;
 
 		// сама форма становится наблюдателем
@@ -147,7 +159,7 @@ public class MainForm implements Observer {
 		panel4.setMinimumSize(new Dimension(screenWidth / 8, screenHeight / 8));
 		panel4.setOpaque(false);
 
-		forText2.setText("Remote addr:(NICK!) ");
+		forText2.setText("Remote addr:");
 		panel4.add(forText2);
 		textField2.setMaximumSize(new Dimension(200, 25));
 		panel4.add(textField2, BorderLayout.SOUTH);
@@ -348,11 +360,10 @@ public class MainForm implements Observer {
 		// Color color = new Color(48, 40, 255);
 		// panel10.setBackground(color);
 
-		ComboBoxModel сModel = new ComboBoxModel();
-		ComboBoxView сView = new ComboBoxView(сModel);
+		
 
-		сModel.addUser("Vasya1");
-		сModel.addUser("Vasya2");
+		//сModel.addUser("Vasya1");
+		//сModel.addUser("Vasya2");
 
 		panel10.setPreferredSize(new Dimension(300, 600));
 		panel10.setMaximumSize(new Dimension(300, 600));
@@ -366,7 +377,7 @@ public class MainForm implements Observer {
 		// comboBox.setPreferredSize(new Dimension(240, 30));
 		// comboBox.setVisible(true);
 
-		panel10.add(delCombo);
+		panel10.add(conCombo);
 		panel10.add(addCombo);
 		panel10.add(friendNick);
 		// addCombo.setEnabled(false); delCombo.setEnabled(false);
@@ -375,20 +386,69 @@ public class MainForm implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				if (friendNick.getText().length() > 0) {
 					if (Protocol.serverCon.isNickOnline(friendNick.getText())) {
-						textArea.append(friendNick.getText() + " is online"
-								+ Protocol.LINE_END);
-
+						String nick = friendNick.getText();
+						textArea.append(nick + " is online"+ Protocol.LINE_END);
+						cModel.addUser(nick,Protocol.serverCon.getIpForNick(nick),Protocol.serverCon.isNickOnline(nick));
+						
+						try {
+							FileOutputStream fos = new FileOutputStream("temp.out");
+							 ObjectOutputStream oos = new ObjectOutputStream(fos);
+							 oos.writeObject(cModel.getUser(cModel.getSize()-1));
+							 oos.flush();
+							 oos.close();
+							 FileInputStream fis = new FileInputStream("temp.out");
+							  ObjectInputStream oin = new ObjectInputStream(fis);
+							  ComboBoxModel.User u = (ComboBoxModel.User) oin.readObject();
+							  textArea.append("version="+u.getIp());
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						 
 					} else {
 						textArea.append(friendNick.getText() + " is offline"
 								+ Protocol.LINE_END);
 					}
+					
 				}
 			}
 		});
 
-		delCombo.addActionListener(new ActionListener() {
+		conCombo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				connect.setEnabled(false);
+				disconnect.setEnabled(true);
+				String [] arr;
+				arr = сView.getSelectedItem().toString().split(" ");
+				textArea.append(arr[2]);
+				
+				try {
+					Caller caller = new Caller(arr[2]);
+					Connection con = caller.call();
+					if (con != null) {
+						send.setEnabled(true);
+						comThread = new CommandListenerThread(con);
+						comThread.addObserver(MainForm.this);
+						comThread.start();
 
+					} else {
+						textArea.append("  could not connect ip addr: " + arr[2]
+								+ "\n");
+						connect.setEnabled(true);
+						disconnect.setEnabled(false);
+						send.setEnabled(false);
+						apply.setEnabled(true);
+					}
+				} catch (UnknownHostException e1) {
+					// e1.printStackTrace();
+					// ////
+				}
 			}
 		});
 
