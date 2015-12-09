@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -213,7 +215,7 @@ public class MainForm implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				Protocol.NICK = textField1.getText();
 				Protocol.serverCon.setLocalNick(Protocol.NICK);
-				textArea.append("[System] Nic" + ",kname changed to: "
+				textArea.append("[System] Nickname changed to: "
 						+ Protocol.NICK + "\n");
 
 				apply.setEnabled(false);
@@ -235,13 +237,15 @@ public class MainForm implements Observer {
 					Caller caller = new Caller(ip);
 					Connection con = caller.call();
 					if (con != null) {
-						send.setEnabled(true);
 						comThread = new CommandListenerThread(con);
 						comThread.addObserver(MainForm.this);
 						comThread.start();
+                        textArea.append("Waiting for accept...");
+                        //TODO
+                        //тут поставить таймер
 
 					} else {
-						textArea.append("  could not connect ip addr: " + ip
+						textArea.append("  Could not connect ip addr: " + ip
 								+ "\n");
 						connect.setEnabled(true);
 						disconnect.setEnabled(false);
@@ -303,6 +307,8 @@ public class MainForm implements Observer {
 				apply.setEnabled(true);
 			}
 		});
+
+
 
 		// "всплывающее" окошко для соединения или отказа в соединении
 		// "звонящему"
@@ -386,6 +392,13 @@ public class MainForm implements Observer {
 			}
 		});
 
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                Protocol.serverCon.goOffline();
+                System.exit(0);
+            }
+        });
+
 		// добавляем на frame
 		panel9.add(panel7, BorderLayout.CENTER);
 		panel9.add(panel5, BorderLayout.SOUTH);
@@ -436,6 +449,7 @@ public class MainForm implements Observer {
 				disconnect.setEnabled(true);
 				send.setEnabled(true);
 				apply.setEnabled(false);
+                textArea.append("You can start the conversation now");
 			}
 
 			if (com.getType() == Command.CommandType.REJECT) {
