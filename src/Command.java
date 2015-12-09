@@ -10,7 +10,7 @@ public class Command {
 	}
 
 	public enum CommandType {
-		ACCEPT, DISCONNECT, MESSAGE, NICK, REJECT;
+		ACCEPT, DISCONNECT, MESSAGE, NICK, REJECT,BUSY;
 	}
 
 	public CommandType getType() {
@@ -25,15 +25,15 @@ public class Command {
 			return new Command(CommandType.REJECT);
 		else if (s.contains("Disconnect"))
 			return new Command(CommandType.DISCONNECT);
-		else if (s.contains("ChatApp 2015"))
-			return new NickCommand(CommandType.NICK,s.replaceAll("ChatApp 2015 user ", "")); //доделать (убрать из сообщения все, кроме самого ника)
-		else if (s.contains("Message"))                                          //аналогично
+		else if (s.contains("ChatApp 2015")){
+			if (s.contains("busy")) return new BusyCommand(CommandType.BUSY,s.replaceAll("ChatApp 2015 user ", ""));
+			else return new NickCommand(CommandType.NICK,s.replaceAll("ChatApp 2015 user ", ""));}
+		else if (s.contains("Message"))
 			return new MessageCommand(CommandType.MESSAGE,s.replaceAll("Message", ""));
-		return null;
+
+			return null;
+
 	}
 		else return null;
 	}
 }
-
-// если клиент отправлял нам NickBusy (сообщение вида ChapApp 2015 user %username% busy), то она распознается тут как обычная nickCommand, a
-// busy запишется в поле для ника (возможно придется переделывать )

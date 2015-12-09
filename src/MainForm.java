@@ -436,6 +436,8 @@ public class MainForm implements Observer {
 						comThread = new CommandListenerThread(con);
 						comThread.addObserver(MainForm.this);
 						comThread.start();
+						textArea.append("Waiting for accept...");
+						//тут добавить таймер
 
 					} else {
 						textArea.append("  could not connect ip addr: " + arr[2]
@@ -525,6 +527,15 @@ public class MainForm implements Observer {
 
 			if (com.getType() == Command.CommandType.DISCONNECT) {
 				textArea.append("Looks like we lost him :c" + Protocol.LINE_END);
+				// убить ComListThread
+				connect.setEnabled(true);
+				disconnect.setEnabled(false);
+				send.setEnabled(false);
+				apply.setEnabled(true);
+			}
+
+			if (com.getType() == Command.CommandType.BUSY) {
+				textArea.append(com.toString());
 				// убить ComListThread
 				connect.setEnabled(true);
 				disconnect.setEnabled(false);
