@@ -108,19 +108,13 @@ public class MainForm implements Observer {
 		Dimension screenSize = kit.getScreenSize();
 		int screenWidth = screenSize.width;
 		int screenHeight = screenSize.height;
-		frame.setSize(screenWidth / 2, screenWidth / 2);
-		frame.setLocationRelativeTo(null);
+	/*	frame.setSize(screenWidth / 2, screenWidth / 2);
+		frame.setLocationRelativeTo(null);*/
 
 		Image img = kit.getImage("caticon.png");
 		frame.setIconImage(img);
 
 		// главная палень на которой будут лежать остальные
-		// Color color = new Color(48, 40, 255);
-		// panel1.setBackground(color);
-		// BufferedImage myPicture = ImageIO.read(new File("416658223.jpg"));
-		// JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		// panel1.add(picLabel);
-
 		/*
 		 * ImageIcon picture = new ImageIcon("416658223.jpg");
 		 * forImage.setIcon(picture);
@@ -129,7 +123,7 @@ public class MainForm implements Observer {
 
 		// вверхняя панель для ввода ника и ip друга
 		panel2.setOpaque(false);
-		panel2.setMaximumSize(new Dimension(screenWidth, screenHeight));
+		//panel2.setMaximumSize(new Dimension(screenWidth, screenHeight));
 		panel2.setPreferredSize(new Dimension(screenWidth / 2, screenHeight / 7));
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
 
@@ -166,12 +160,9 @@ public class MainForm implements Observer {
 
 		// панель ввода текста
 		panel5.setOpaque(false);
-		panel5.setMaximumSize(new Dimension(screenWidth / 2, screenHeight / 25));
-		panel5.setPreferredSize(new Dimension(screenWidth / 2,
-				screenHeight / 25));
-		panel5.setMinimumSize(new Dimension(screenWidth / 2, screenHeight / 25));
-
-		panel5.setLayout(new BoxLayout(panel5, BoxLayout.X_AXIS));
+		panel5.setMaximumSize(new Dimension(650, screenHeight / 25));
+	    panel5.setPreferredSize(new Dimension(650 ,screenHeight / 25));
+	    panel5.setMinimumSize(new Dimension(650,screenHeight / 25));panel5.setLayout(new BoxLayout(panel5, BoxLayout.X_AXIS));
 
 		panel5.add(new JScrollPane(textAreaForMessenger));
 		send.setEnabled(false);
@@ -179,21 +170,21 @@ public class MainForm implements Observer {
 
 		// панель для вывода сообщений на экран
 		panel7.setOpaque(false);
-		panel7.setMaximumSize(new Dimension(screenWidth / 2, 500));
+		/*panel7.setMaximumSize(new Dimension(screenWidth / 2, 500));
 		panel7.setPreferredSize(new Dimension(screenWidth / 2, 500));
 		panel7.setMinimumSize(new Dimension(screenWidth / 2, 500));
-
+*/
 		panel7.setLayout(new BorderLayout());
 
-		/*
-		 * textArea.setMaximumSize(new Dimension(400, 300));
-		 * textArea.setPreferredSize(new Dimension(400, 300));
-		 * textArea.setMinimumSize(new Dimension(400,300));
-		 */
+		textArea.setMaximumSize(new Dimension(650, 500));
+	    textArea.setPreferredSize(new Dimension(650, 500));
+	    textArea.setMinimumSize(new Dimension(650,500));
 
 		areaScrollPane
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+		textArea.setWrapStyleWord(true);
+	    textArea.setLineWrap(true);
 		panel7.add(new JScrollPane(textArea));
 		textArea.setEditable(false);
 
@@ -356,15 +347,8 @@ public class MainForm implements Observer {
 		panel9.setMaximumSize(new Dimension(screenWidth / 2, 600));
 		panel9.setMinimumSize(new Dimension(screenWidth / 2, 600));
 
-		// для списка контактов
-		// Color color = new Color(48, 40, 255);
-		// panel10.setBackground(color);
-
 		
-
-		//сModel.addUser("Vasya1");
-		//сModel.addUser("Vasya2");
-
+		// для списка контактов
 		panel10.setPreferredSize(new Dimension(300, 600));
 		panel10.setMaximumSize(new Dimension(300, 600));
 		panel10.setMinimumSize(new Dimension(300, 600));
@@ -373,9 +357,10 @@ public class MainForm implements Observer {
 		panel10.add(forText4);
 		panel10.add(сView);
 
-		// comboBox.setEditable(true); comboBox.setAlignmentY(240);
-		// comboBox.setPreferredSize(new Dimension(240, 30));
-		// comboBox.setVisible(true);
+		//сView.setEditable(true); 
+		сView.setAlignmentY(240);
+		сView.setPreferredSize(new Dimension(270, 30));
+		сView.setVisible(true);
 
 		panel10.add(conCombo);
 		panel10.add(addCombo);
